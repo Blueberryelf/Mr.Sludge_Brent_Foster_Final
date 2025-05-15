@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,29 +15,69 @@ public class PlayerController : MonoBehaviour
 
 
     public bool hasPowerupJump = false;
-    public GameObject powerupIndicator;
+    //public GameObject powerupIndicator;
+    public GameObject powerupIndicatorJump;
     public int powerupJumpDuration = 3;
 
     public bool hasPowerupSheild = false;
-    public GameObject powerupSheild;
+    public GameObject powerupIndicatorSheild;
     public int powerupSheildDuration = 3;
+
+    public bool isJumping = false;
+
+
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+    public AudioClip powerupJumpSound;
+    public AudioClip powerupSheildSound;
+
+
+    private AudioSource playerAudio;
+    
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        playerRb = GetComponent<Rigidbody2D>();
-        Physics2D.gravity *= gravityModifier;
+
+        
+        GameStartController();
+        
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround && !gameOver)
+        powerupIndicatorSheild.transform.position = transform.position + new Vector3(0, 0, 0);
+        powerupIndicatorJump.transform.position = transform.position + new Vector3(0.1f, 0.2f, 0);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround && !gameOver && !isJumping)
+        {
+            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            playerAudio.PlayOneShot(jumpSound, 1.0f);
+            isOnGround = false;
+            isJumping = true;
+
+
+
+        }
+
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && hasPowerupJump && !isOnGround && !gameOver && isJumping)
         {
             playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isOnGround = false;
-            
-            
-            
+            isJumping = false;
+
+        }
+        //else isJumping = false;
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !gameOver)
+        {
+            playerRb.AddForce(Vector2.down * jumpForce, ForceMode2D.Impulse);
         }
     }
 
@@ -44,32 +86,39 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            isJumping = false;
+
         }
         if (collision.gameObject.CompareTag("Fairy"))
         {
-            gameOver = true;
+            if (hasPowerupSheild)
+            {
+                Destroy(collision.gameObject);
+            }
+            else gameOver = true;
+            playerAudio.PlayOneShot(crashSound, 1.0f);
         }
         if (collision.gameObject.CompareTag("Tree"))
         {
-            gameOver = true;
+            if (hasPowerupSheild)
+            {
+                Destroy(collision.gameObject);
+            }
+            else gameOver = true;
+            playerAudio.PlayOneShot(crashSound, 1.0f);
         }
-
-       // if (collision.gameObject.CompareTag("Tree") && hasPowerupSheild)
-       // {
-            //Destroy(gameObject.CompareTag("Tree"));
-            
-            
-            
-       // }
-
-        
-
         if (collision.gameObject.CompareTag("Rock"))
         {
-            gameOver = true;
+            if (hasPowerupSheild)
+            {
+                Destroy(collision.gameObject);
+            }
+            else gameOver = true;
+            playerAudio.PlayOneShot(crashSound, 1.0f);
+
         }
-    
-        
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -77,31 +126,50 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PowerupJump"))
         {
             Destroy(other.gameObject);
+
+            playerAudio.PlayOneShot(powerupJumpSound, 1.0f);
             hasPowerupJump = true;
-            powerupIndicator.SetActive(true);
+            powerupIndicatorJump.SetActive(true);
             StartCoroutine(PowerupJumpCooldownRoutine());
         }
         if (other.gameObject.CompareTag("PowerupSheild"))
         {
             Destroy(other.gameObject);
+
+            playerAudio.PlayOneShot(powerupSheildSound, 1.0f);
             hasPowerupSheild = true;
-            powerupIndicator.SetActive(true);
+            powerupIndicatorSheild.SetActive(true);
             StartCoroutine(PowerupSheildCooldownRoutine());
         }
-        
+
     }
 
     IEnumerator PowerupJumpCooldownRoutine()
     {
         yield return new WaitForSeconds(powerupJumpDuration);
         hasPowerupJump = false;
-        powerupIndicator.SetActive(false);
+
+        powerupIndicatorJump.SetActive(false);
     }
 
     IEnumerator PowerupSheildCooldownRoutine()
     {
         yield return new WaitForSeconds(powerupSheildDuration);
         hasPowerupSheild = false;
-        powerupIndicator.SetActive(false);
+        powerupIndicatorSheild.SetActive(false);
     }
+
+    public void GameStartController()
+    {
+        gameOver = false;
+        playerAudio = GetComponent<AudioSource>();
+        powerupIndicatorSheild.SetActive(false);
+        powerupIndicatorJump.SetActive(false);
+        playerRb = GetComponent<Rigidbody2D>();
+        Physics2D.gravity *= gravityModifier;
+    }
+
+    
+
 }
+
