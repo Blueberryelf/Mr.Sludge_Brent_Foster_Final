@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 
 public class PlayerController : MonoBehaviour
@@ -33,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
 
     private AudioSource playerAudio;
+    public AudioClip backgroundMusic;
+
+    public GameManager gameManager;
     
 
 
@@ -41,9 +45,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        
-        GameStartController();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameOver = true;
+        //GameStartController();
         
         
         
@@ -95,8 +99,12 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(collision.gameObject);
             }
-            else gameOver = true;
-            playerAudio.PlayOneShot(crashSound, 1.0f);
+            else
+            {
+                gameOver = true;
+                playerAudio.PlayOneShot(crashSound, 1.0f);
+                Invoke("RestartScene", 2);
+            }
         }
         if (collision.gameObject.CompareTag("Tree"))
         {
@@ -104,8 +112,12 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(collision.gameObject);
             }
-            else gameOver = true;
-            playerAudio.PlayOneShot(crashSound, 1.0f);
+            else
+            {
+                gameOver = true;
+                playerAudio.PlayOneShot(crashSound, 1.0f);
+                Invoke("RestartScene", 2);
+            }
         }
         if (collision.gameObject.CompareTag("Rock"))
         {
@@ -113,9 +125,12 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(collision.gameObject);
             }
-            else gameOver = true;
-            playerAudio.PlayOneShot(crashSound, 1.0f);
-
+            else
+            {
+                gameOver = true;
+                playerAudio.PlayOneShot(crashSound, 1.0f);
+                Invoke("RestartScene", 2);
+            }
         }
 
 
@@ -163,13 +178,22 @@ public class PlayerController : MonoBehaviour
     {
         gameOver = false;
         playerAudio = GetComponent<AudioSource>();
+        backgroundMusic = GetComponent<AudioClip>();
         powerupIndicatorSheild.SetActive(false);
         powerupIndicatorJump.SetActive(false);
         playerRb = GetComponent<Rigidbody2D>();
-        Physics2D.gravity *= gravityModifier;
+        Physics2D.gravity = new Vector2(0, -12);
+        
     }
 
-    
+    void RestartScene()
+    {
+        playerAudio.PlayOneShot(backgroundMusic, 1.0f);
+        SceneManager.LoadScene(0);
+        
+
+
+    }
 
 }
 

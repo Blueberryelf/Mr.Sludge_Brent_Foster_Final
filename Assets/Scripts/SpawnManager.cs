@@ -7,6 +7,8 @@ public class SpawnManager : MonoBehaviour
 {
     private PlayerController playerControllerScript;
 
+    public Button hardButton;
+
     public GameObject[] groundPrefabs;
     public GameObject[] airPrefabs;
     public GameObject[] powerupPrefabs;
@@ -102,6 +104,12 @@ public class SpawnManager : MonoBehaviour
             InvokeRepeating("SpawnRandomAirObsticel", startDelayAir, spawnIntervalAir);
             InvokeRepeating("SpawnRandomPowerup", startDelayPowerups, spawnIntervalPowerups);
         }
+
+
         
+    }
+    private void StopSpawnRandomPowerup()
+    {
+
     }
 }

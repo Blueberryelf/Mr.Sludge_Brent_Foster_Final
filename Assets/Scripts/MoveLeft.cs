@@ -38,23 +38,23 @@ public class MoveLeft : MonoBehaviour
         {
             transform.Translate(Vector2.left * Time.deltaTime * speed);
 
-            if (Time.realtimeSinceStartup > timePassed1)
+            if (Time.timeSinceLevelLoad > timePassed1)
             {
                 transform.Translate(Vector2.left * Time.deltaTime * 2 );
 
-                if (Time.realtimeSinceStartup > timePassed2)
+                if (Time.timeSinceLevelLoad > timePassed2)
                 {
                     transform.Translate(Vector2.left * Time.deltaTime * 2);
 
-                    if (Time.realtimeSinceStartup > timePassed3)
+                    if (Time.timeSinceLevelLoad > timePassed3)
                     {
                         transform.Translate(Vector2.left * Time.deltaTime * 2);
 
-                        if (Time.realtimeSinceStartup > timePassed4)
+                        if (Time.timeSinceLevelLoad > timePassed4)
                         {
                             transform.Translate(Vector2.left * Time.deltaTime * 2);
 
-                            if (Time.realtimeSinceStartup > timepPassed5)
+                            if (Time.timeSinceLevelLoad > timepPassed5)
                             {
                                 transform.Translate(Vector2.left * Time.deltaTime * 2);
                             }

@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
     private PlayerController playerControllerScript;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public Button regularPlayButton;
     public Button hardPlayButton;
-    private float score;
+    public float score;
 
     private AudioSource playerAudio;
     public AudioClip backgroundMusic;
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         if (playerControllerScript.gameOver == false)
         {
-            score = Time.realtimeSinceStartup;
+            score = Time.timeSinceLevelLoad;
             scoreText.text = "Score: " + score;
         }
         
@@ -50,7 +51,7 @@ public class GameManager : MonoBehaviour
         if (playerControllerScript.gameOver == false)
         {
             
-            playerAudio.PlayOneShot(backgroundMusic, 1.0f);
+            //playerAudio.PlayOneShot(backgroundMusic, 1.0f);
         }
         else if (playerControllerScript.gameOver == true)
         {
@@ -59,12 +60,14 @@ public class GameManager : MonoBehaviour
             regularPlayButton.gameObject.SetActive(true);
             hardPlayButton.gameObject.SetActive(true);
             playerAudio.Stop();
+            
         }
             
     }
 
     public void GameManagerStart()
     {
+        
         scoreText.gameObject.SetActive(true);
         titleText.gameObject.SetActive(false);
         regularPlayButton.gameObject.SetActive(false);
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         playerAudio = GetComponent<AudioSource>();
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
-        playerControllerScript.gameOver = false;
+        playerControllerScript.GameStartController();
        
     }
 

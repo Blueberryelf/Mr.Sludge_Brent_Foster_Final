@@ -339,7 +339,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 55265442}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 151224373}
+        m_TargetAssemblyTypeName: UnityEngine.MonoBehaviour, UnityEngine
+        m_MethodName: CancelInvoke
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SpawnRandomPowerup
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &55265442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb71d0732e5d304ba36341393999745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hardButton: {fileID: 0}
   groundPrefabs:
   - {fileID: 8802570838064672455, guid: 770f03c09c2a5e44cb997aaf2cf8e9bd, type: 3}
   - {fileID: 6823984139315850862, guid: 7df3948e04036594282c44a2684796b1, type: 3}
@@ -533,7 +546,7 @@ Transform:
   m_GameObject: {fileID: 189410086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -1.7, z: 0}
+  m_LocalPosition: {x: -8, y: 8, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -948,6 +961,7 @@ MonoBehaviour:
   scoreText: {fileID: 1391624322}
   regularPlayButton: {fileID: 1455195007}
   hardPlayButton: {fileID: 55265441}
+  score: 0
   backgroundMusic: {fileID: 8300000, guid: a65ce297650ffd74394a61ff7ff62b17, type: 3}
 --- !u!82 &571793592
 AudioSource:
@@ -1347,6 +1361,8 @@ MonoBehaviour:
   crashSound: {fileID: 8300000, guid: 0e5322d61deac254ba1953809d9ea0b5, type: 3}
   powerupJumpSound: {fileID: 8300000, guid: 4c29c1393e3f10f4695a4fb08ccc5329, type: 3}
   powerupSheildSound: {fileID: 8300000, guid: e354ede0f8ee7074c859cb93933997ed, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: a65ce297650ffd74394a61ff7ff62b17, type: 3}
+  gameManager: {fileID: 0}
 --- !u!114 &1323920829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1369,7 +1385,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a65ce297650ffd74394a61ff7ff62b17, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1487,9 +1503,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1825567589}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -177.5, y: 134.59999}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 103.5, y: -23.40001}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1391624322
@@ -2218,7 +2234,7 @@ Transform:
   m_GameObject: {fileID: 2109396086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -2, z: 0}
+  m_LocalPosition: {x: -8, y: 8, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2250,11 +2266,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2568934213221615215, guid: 000518c9e0f4b53419fb6f7d4082c1a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 2568934213221615215, guid: 000518c9e0f4b53419fb6f7d4082c1a1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.9642553
       objectReference: {fileID: 0}
     - target: {fileID: 2568934213221615215, guid: 000518c9e0f4b53419fb6f7d4082c1a1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2448,7 +2464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4211742157494062196, guid: f46455d81d692954682cc27cd5e57556, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 4211742157494062196, guid: f46455d81d692954682cc27cd5e57556, type: 3}
       propertyPath: m_LocalPosition.y
